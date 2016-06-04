@@ -48,9 +48,13 @@ try:
                 elif(any(substring in val for substring in spotifyList)):
                     print("Opening Spotify for you, sir.")
                     subproc.call(["C:\\Users\\Kyler\\AppData\\Roaming\\Spotify\\Spotify.exe"])
+                #TODO Launch Steam
 
+                #TODO Launch Chrome
 
+                #TODO Learn Commands
 
+                #TODO Sleep command
 
         except sr.UnknownValueError:
             print("Oops! Didn't catch that")
