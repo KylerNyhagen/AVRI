@@ -1,12 +1,14 @@
 import speech_recognition as sr
-import subprocess as subproc
 import pyowm as weather
+from AVRI_COMMANDS import *
 
-import comtypes as volChange
+
 r = sr.Recognizer()
 m = sr.Microphone()
 owm = weather.OWM('c7bd9556b293d6b216a295062fdbb2dc')
 try:
+    #openprogram("test", "test")
+    #findNotepad()
     print("Initalizing AVRI_Main V0.2 Alpha...")
     print("==============================")
     print("AVRI_Main commands developed by: Kyler Nyhagen")
@@ -43,11 +45,11 @@ try:
                 #Take some notes" instead of just saying "take some notes"
                 elif(any(substring in val for substring in notePadList)):
                     print("Opening notepad for you, sir.")
-                    subproc.call(['cmd.exe', '/c', 'start notepad++'])
+                    #subprocess.call(['cmd.exe', '/c', 'start notepad++'])
                     #os.startfile(r'notepad++')
                 elif(any(substring in val for substring in spotifyList)):
                     print("Opening Spotify for you, sir.")
-                    subproc.call(["C:\\Users\\Kyler\\AppData\\Roaming\\Spotify\\Spotify.exe"])
+                   # subprocess.call(["C:\\Users\\Kyler\\AppData\\Roaming\\Spotify\\Spotify.exe"])
                 #TODO Launch Steam
 
                 #TODO Launch Chrome
@@ -60,5 +62,8 @@ try:
             print("Oops! Didn't catch that")
         except sr.RequestError as e:
             print("Uh oh! Couldn't request results from Google Speech Recognition service; {0}".format(e))
+
 except KeyboardInterrupt:
     pass
+
+
