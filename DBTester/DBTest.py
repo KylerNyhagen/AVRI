@@ -21,7 +21,19 @@ notepadLink = str(c.execute("SELECT location from programs WHERE programname = (
 notepadLink = notepadLink.replace(',','').replace("'", "", 2)[1:-1]
 print(notepadLink)
 notepadCommands = list(c.execute("select phrase from commands WHERE programname = 'notepad'"))
-AVRI_COMMANDS.openprogram("notepad", notepadLink)
+#notemap = map(lamba each:each.strip('('), notepadCommands)
+print(notepadCommands)
+#print(str.replace('(', '') for str in notepadCommands)
+
+#This de-tupilizes the commands to be strings instead of tuples
+notepadCommands = [''.join(val) for val in notepadCommands]
+'''
+for i,val in enumerate(notepadCommands):
+    val = ''.join(val)
+    notepadCommands[i] = val
+    '''
+print(notepadCommands)
+#AVRI_COMMANDS.openprogram("notepad", notepadLink)
 
 conn.commit()
 conn.close()
