@@ -6,6 +6,11 @@ from AVRI_COMMANDS import *
 r = sr.Recognizer()
 m = sr.Microphone()
 owm = weather.OWM('c7bd9556b293d6b216a295062fdbb2dc')
+#TODO populate these lists with a database instead
+#All commands to open various programs
+notePadList = ["let's take some notes", "give me some paper"]
+spotifyList = ["give me a beat", "let's listen to music"]
+steamList = ["let's play some games", "open steam"]
 try:
     #openprogram("test", "test")
     #findNotepad()
@@ -17,10 +22,6 @@ try:
     with m as source: r.adjust_for_ambient_noise(source)
     # What is this? print("Set minimum energy threshold to {}".format(r.energy_threshold))
     print("I'm online now sir, what do you require?")
-    #All commands to open
-    notePadList = ["let's take some notes", "give me some paper"]
-    spotifyList = ["give me a beat", "let's listen to music"]
-
     while True:
         #print("Say something!")
         with m as source: audio = r.listen(source)
@@ -48,10 +49,10 @@ try:
                     #subprocess.call(['cmd.exe', '/c', 'start notepad++'])
                     #os.startfile(r'notepad++')
                 elif(any(substring in val for substring in spotifyList)):
-                    print("Opening Spotify for you, sir.")
-                   # subprocess.call(["C:\\Users\\Kyler\\AppData\\Roaming\\Spotify\\Spotify.exe"])
-                #TODO Launch Steam
-
+                    openprogram("Opening Spotify for you, sir.", '%appdata%\Spotify\Spotify.exe')
+                elif(any(substring in val for substring in steamList)):
+                    #TODO Get path for Steam
+                    openprogram("Opening Steam for you, sir.", "STEAM_LOCATION")
                 #TODO Launch Chrome
 
                 #TODO Learn Commands
