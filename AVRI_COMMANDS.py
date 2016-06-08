@@ -64,5 +64,10 @@ def find_file_in_all_drives(file_name):
         if(not fileDirectory is None):
             return fileDirectory
 
+def speak(toOutput):
+    seq = (toOutput, "EXIT")
+    p = subprocess.Popen(["SpeakEasy.exe"], stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+    p.communicate(str.encode('\n'.join(seq) + '\n'))
+
 
 
