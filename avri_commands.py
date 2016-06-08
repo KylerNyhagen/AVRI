@@ -3,17 +3,40 @@ import os
 import re
 import win32api
 import sqlite3
+
+global can_speak
+can_speak = True
+
+
+def speak(toOutput):
+    seq = (toOutput, "EXIT")
+    p = subprocess.Popen(["SpeakEasy.exe"], stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+    p.communicate(str.encode('\n'.join(seq) + '\n'))
+
+def mute():
+    global can_speak
+    can_speak = False
+
+def speak_up():
+    global can_speak
+    can_speak = True
 '''
 Function called when user wants to open a program.
 msg = What AVRI will output to the console
 location = where the executable is in the users computer.
 '''
+
+
 def openprogram(msg, location, alias="none"):
     command = '"' + alias + '" "'  + location + '"'
-    print(command)
-    if(alias == "none"):
-        subprocess.call(['cmd.exe', '/c', location])
+    if can_speak:
+        speak(msg)
 
+    if(alias == "none"):
+        subprocess.Popen(['cmd.exe', '/c', location])
+    else:
+        subprocess.Popen(['cmd.exe', '/c', command])
+    print(msg)
 
 
 
@@ -64,10 +87,7 @@ def find_file_in_all_drives(file_name):
         if(not fileDirectory is None):
             return fileDirectory
 
-def speak(toOutput):
-    seq = (toOutput, "EXIT")
-    p = subprocess.Popen(["SpeakEasy.exe"], stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
-    p.communicate(str.encode('\n'.join(seq) + '\n'))
+
 
 
 

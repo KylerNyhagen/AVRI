@@ -2,14 +2,13 @@ import speech_recognition as sr
 import pyowm as weather
 from avri_commands import *
 import avri_db
-
 #DATABASE TESTS
 avri_db.connect_database()
 
 
 # Silence feature - If this is false, AVRI will not speak.
 avri_version = "0.2 Alpha"
-canSpeak = False
+can_speak = False
 r = sr.Recognizer()
 m = sr.Microphone()
 owm = weather.OWM('c7bd9556b293d6b216a295062fdbb2dc')
@@ -26,35 +25,33 @@ try:
     print("AVRI_Main Recognition based on: Google Speech Recognition")
     print("==============================")
     with m as source: r.adjust_for_ambient_noise(source)
-    # What is this? print("Set minimum energy threshold to {}".format(r.energy_threshold))
+
     print("I'm online now sir, what do you require?")
     while True:
-        #print("Say something!")
         with m as source: audio = r.listen(source)
-        #print("Got it! Now to recognize it...")
+        # TEST LINE print("Got it! Now to recognize it...")
         try:
             # recognize speech using Google Speech Recognition
             value = r.recognize_google(audio)
             val = format(value).lower()
 
-
+            # Prints out what AVRI thinks the user said
             print(val)
 
-            if(val == "good morning avery"):
+            if val == "good morning avery":
                 observation = owm.weather_at_place('Saskatoon, CA')
                 w = observation.get_weather()
-                if(canSpeak):
+                # Will speak the printed line if AVRI is not muted
+                if can_speak:
                     speak("Good morning sir, it is currently %s degrees in Saskatoon right now." % (
                     w.get_temperature('celsius').get("temp")))
                 print("Good morning sir, it is currently %s degrees in Saskatoon right now." % (
                     w.get_temperature('celsius').get("temp")))
 
-            #Checks if the user said anything in the note pad list, so it still let's them say "Hey Avery, Let's
-            #Take some notes" instead of just saying "take some notes"
-            elif(any(substring in val for substring in notepad_list)):
-                print("Opening notepad for you, sir.")
-                #subprocess.call(['cmd.exe', '/c', 'start notepad++'])
-                #os.startfile(r'notepad++')
+            # Checks if the user said anything in the note pad list, so it still let's them say "Hey Avery, Let's
+            # Take some notes" instead of just saying "take some notes"
+            elif any(substring in val for substring in notepad_list):
+                openprogram("Opening notepad", avri_db.get_program_location(val))
             elif(any(substring in val for substring in spotify_list)):
                 openprogram("Opening Spotify for you, sir.", '%appdata%\Spotify\Spotify.exe')
             elif(any(substring in val for substring in steam_list)):

@@ -47,6 +47,11 @@ def add_program(program_name, program_executable):
 
     conn.commit()
     conn.close()
+def get_program_location(command):
+    connect_database()
+    command = str(command).replace("'", "''")
+    program = str(c.execute("SELECT location from programs WHERE programname = (SELECT programname from commands WHERE phrase = '" +command + "')").fetchone()).replace(',', '').replace("'", "", 2)[1:-1]
+    return program
 
 
 def add_command(program_name, command):
